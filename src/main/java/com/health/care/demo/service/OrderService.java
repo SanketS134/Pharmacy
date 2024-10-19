@@ -10,4 +10,5 @@ public interface OrderService {
     CreateOrder createOrder(PatientInventory patientInventory);
     InventoryEntity sveInventory(InventoryEntity inventory);
 	List<InventoryEntity> getListOfInventories(String name);
+	List<InventoryEntity> getAllListOfInventories();
 }

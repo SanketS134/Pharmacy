@@ -29,7 +29,13 @@ public class controller {
         return ResponseEntity.ok(entity);
     }
     
-    @GetMapping("/api/get/inventory/list")
+    @GetMapping("/api/get/all/inventory/list")
+    public ResponseEntity<List<InventoryEntity>> getAllListOfInventories() {
+    	List<InventoryEntity> list = orderService.getAllListOfInventories();
+        return ResponseEntity.ok(list);
+    }
+    
+    @GetMapping("/api/get/filtered/inventory/list")
     public ResponseEntity<List<InventoryEntity>> getListOfInventories(@RequestParam("name") String name) {
     	List<InventoryEntity> list = orderService.getListOfInventories(name);
         return ResponseEntity.ok(list);

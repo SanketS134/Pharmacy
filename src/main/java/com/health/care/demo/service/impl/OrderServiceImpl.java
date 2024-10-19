@@ -80,4 +80,15 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return entities;
 	}
+
+	@Override
+	public List<InventoryEntity> getAllListOfInventories() {
+		List<InventoryEntity> entities = new ArrayList<>();
+		try {
+			entities = inventoryRepo.findAll();
+		}catch (Exception e) {
+			throw new RuntimeException("error", e);
+		}
+		return entities;
+	}
 }
