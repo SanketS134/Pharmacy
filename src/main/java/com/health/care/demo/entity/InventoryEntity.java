@@ -19,8 +19,8 @@ public class InventoryEntity {
     private LocalDate mfgDate;
     @Column(name="expiration_date")
     private LocalDate expirationDate;
-    @Column(name="prescriptionRequired")
-    private boolean prescription_required;
+    @Column(name="prescription_required")
+    private boolean prescriptionRequired;
     @Column(name="reorder_level")
     private int reorderLevel;
     private int quantity;
