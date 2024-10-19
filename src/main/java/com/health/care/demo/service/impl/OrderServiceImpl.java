@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPrescriptionId(patientInventory.getPrescriptionId());
 
         try {
-            String inventoryJson = objectMapper.writeValueAsString(patientInventory.getOrders);
+            String inventoryJson = objectMapper.writeValueAsString(patientInventory.getOrders());
             order.setInventoryJson(inventoryJson);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error processing inventory JSON", e);
