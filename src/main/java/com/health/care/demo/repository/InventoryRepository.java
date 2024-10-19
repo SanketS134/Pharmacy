@@ -11,5 +11,7 @@ import java.util.List;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<InventoryEntity, Long> {
-   
+	@Query(value = "SELECT * FROM inventory WHERE :name IS NULL OR LOWER(name) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(manufacturer_name) LIKE LOWER(CONCAT('%', :name, '%'))", nativeQuery = true)
+    List<InventoryEntity> getEntitiesByName(@Param("name") String name);
+	
 }

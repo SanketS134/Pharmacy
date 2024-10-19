@@ -55,12 +55,34 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public InventoryEntity sveInventory(InventoryEntity inventory) {
-		
-		inventoryRepo.save(inventory);
-		
-		
-		
-		return null;
+		InventoryEntity inv = new InventoryEntity();
+		try {
+			Optional<InventoryEntity> entity = inventoryRepo.findById(inventory.getId());
+			if (entity.isPresent()) 
+				inventory.setCreatedOn(entity.get().getCreatedOn());
+			else 
+				inventory.setCreatedOn(System.currentTimeMillis());
+			
+			inventory.setUpdatedOn(System.currentTimeMillis());
+			inventory.setTotalPrice(inventory.getQuantity() * (inventory.getUnitPrice()));
+			inventory.setUpdatedOn(System.currentTimeMillis());
+			inventory.setTotalPrice(inventory.getQuantity() * (inventory.getUnitPrice()));
+			inv = inventoryRepo.save(inventory);
+		} catch (Exception e) {
+			throw new RuntimeException("error", e);
+		}
+		return inv;
+	}
+
+	@Override
+	public List<InventoryEntity> getListOfInventories(String name) {
+		List<InventoryEntity> entities = new ArrayList<>();
+		try {
+			entities = inventoryRepo.getEntitiesByName(name);
+		}catch (Exception e) {
+			throw new RuntimeException("error", e);
+		}
+		return entities;
 	}
 
 	@Override

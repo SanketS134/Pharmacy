@@ -11,18 +11,29 @@ public class InventoryEntity {
     private Long id;
     private String name;
     private String dosage;
+    @Column(name="manufacturer_name")
     private String manufacturerName;
+    @Column(name="batch_no")
     private String batchNo;
+    @Column(name="mfg_date")
     private LocalDate mfgDate;
+    @Column(name="expiration_date")
     private LocalDate expirationDate;
+    @Column(name="prescription_required")
     private boolean prescriptionRequired;
+    @Column(name="reorder_level")
     private int reorderLevel;
     private int quantity;
+    @Column(name="image_url")
     private String imageUrl;
+    @Column(name="unit_price")
     private double unitPrice;
+    @Column(name="total_price")
     private double totalPrice;
     private String status;
+    @Column(name="created_on")
     private Long createdOn;
+    @Column(name="updated_on")
     private Long updatedOn;
     
 	public Long getCreatedOn() {

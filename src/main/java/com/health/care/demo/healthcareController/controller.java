@@ -18,23 +18,27 @@ public class controller {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping ("/api/orders")
+    @PostMapping("/api/orders")
     public ResponseEntity<CreateOrder> createOrder(@RequestBody PatientInventory patientInventory) {
         CreateOrder createdOrder = orderService.createOrder(patientInventory);
         return ResponseEntity.ok(createdOrder);
     }
     
-    @PostMapping ("/api/inventory")
-    public ResponseEntity<InventoryEntity> saveInventory(@RequestBody InventoryEntity inventory) {
-    	InventoryEntity entity = orderService.sveInventory(inventory);
+    @PostMapping("/api/save/inventory")
+    public ResponseEntity<InventoryEntity> saveInventory(@RequestBody InventoryEntity list) {
+    	InventoryEntity entity = orderService.sveInventory(list);
         return ResponseEntity.ok(entity);
     }
-    
+
     @GetMapping ("api/get/orders")
     public ResponseEntity<List<OrdersListClass>> getOrders() {
         List<OrdersListClass> getListOrders = orderService.getOrders();
         return ResponseEntity.ok(getListOrders);
     }
-  
-    
+
+    @GetMapping("/api/get/inventory/list")
+    public ResponseEntity<List<InventoryEntity>> getListOfInventories(@RequestParam("name") String name) {
+    	List<InventoryEntity> list = orderService.getListOfInventories(name);
+        return ResponseEntity.ok(list);
+    }
 }
