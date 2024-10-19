@@ -23,7 +23,7 @@ public class controller {
         return ResponseEntity.ok(createdOrder);
     }
     
-    @PostMapping("/api/inventory")
+    @PostMapping("/api/save/inventory")
     public ResponseEntity<InventoryEntity> saveInventory(@RequestBody InventoryEntity list) {
     	InventoryEntity entity = orderService.sveInventory(list);
         return ResponseEntity.ok(entity);
