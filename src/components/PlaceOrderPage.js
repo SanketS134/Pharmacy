@@ -45,13 +45,16 @@ function PlaceOrderPage() {
       title: "Quantity",
       key: "quantity",
       render: (_, record) => (
-        <CartCounter
+        <>
+          {record.orderedQuantity}
+          {/* <CartCounter
           max={record.quantity}
           initialQuantity={record.orderedQuantity}
           onQuantityChange={(quantity) =>
             handleQuantityChange(record, quantity)
           }
-        />
+        /> */}
+        </>
       ),
     },
     {
@@ -74,7 +77,7 @@ function PlaceOrderPage() {
   };
 
   const handleSubmit = async (values) => {
-    // try {
+    try {
       const orderPayload = {
         patientName: values.patientName,
         phoneNumber: values.patientContact,
@@ -102,11 +105,11 @@ function PlaceOrderPage() {
 
       message.success("Order placed successfully!");
       clearCartFromLocalStorage();
-      navigate("/pharmacy");
-    // } catch (error) {
-    //   console.error("Error placing order:", error);
-    //   message.error("Failed to place order. Please try again.");
-    // }
+      navigate("/orders");
+    } catch (error) {
+      console.error("Error placing order:", error);
+      message.error("Failed to place order. Please try again.");
+    }
   };
 
   const handleBack = () => {
@@ -135,7 +138,7 @@ function PlaceOrderPage() {
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Row gutter={24}>
-            <Col span={11}>
+            <Col span={12}>
               <Title level={5}>Patient Details</Title>
               <Row gutter={16}>
                 <Col span={12}>
@@ -165,17 +168,7 @@ function PlaceOrderPage() {
                 <Input />
               </Form.Item>
             </Col>
-            <Col
-              span={2}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "stretch",
-              }}
-            >
-              <Divider type="vertical" style={{ height: "100%" }} />
-            </Col>
-            <Col span={11}>
+            <Col span={12}>
               <Title level={5}>Doctor Details</Title>
               <Row gutter={16}>
                 <Col span={12}>
@@ -188,31 +181,19 @@ function PlaceOrderPage() {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name="doctorContact"
-                    label="Contact"
-                    rules={[{ required: true }]}
-                  >
+                  <Form.Item name="doctorContact" label="Contact">
                     <Input />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
-                  <Form.Item
-                    name="prescriptionId"
-                    label="Prescription ID"
-                    rules={[{ required: true }]}
-                  >
+                  <Form.Item name="prescriptionId" label="Prescription ID">
                     <Input />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name="prescriptionLink"
-                    label="Prescription Link"
-                    rules={[{ required: true, type: "url" }]}
-                  >
+                  <Form.Item name="prescriptionLink" label="Prescription Link">
                     <Input />
                   </Form.Item>
                 </Col>
