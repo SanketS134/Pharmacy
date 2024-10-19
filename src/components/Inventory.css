@@ -1,0 +1,112 @@
+/* Remove the font-family declaration */
+body, .ant-table, .ant-modal-content, .ant-form {
+  font-size: 12px; /* Reduced font size */
+}
+
+/* Rest of your existing CSS */
+.custom-table .ant-table-thead > tr > th {
+  background-color: #5b6c91 !important;
+  color: white !important;
+  text-transform: uppercase;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  font-weight: 500 !important;
+  font-size: 12px; /* Reduced font size */
+}
+
+.actions-column {
+  text-align: center !important;
+}
+
+.actions-column .ant-table-cell {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Updated styles for alternating row colors */
+.custom-table .ant-table-tbody > tr.odd-row > td {
+  background-color: #f4f6f8;
+}
+
+.custom-table .ant-table-tbody > tr.even-row > td {
+  background-color: white;
+}
+
+/* Ensure hover effect doesn't override our custom colors */
+.custom-table .ant-table-tbody > tr:hover > td {
+  background-color: #e6f7ff !important;
+}
+
+/* New styles for buttons */
+.ant-btn-primary {
+  background-color: #5b6c91 !important;
+  border-color: #5b6c91 !important;
+}
+
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+  background-color: #4a5a7a !important;
+  border-color: #4a5a7a !important;
+}
+
+.ant-btn:not(.ant-btn-primary) {
+  color: #5b6c91 !important;
+  border-color: #5b6c91 !important;
+}
+
+.ant-btn:not(.ant-btn-primary):hover, .ant-btn:not(.ant-btn-primary):focus {
+  color: #4a5a7a !important;
+  border-color: #4a5a7a !important;
+}
+
+/* Update the status badge styles */
+.status-badge {
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  display: inline-block;
+  width: auto;
+  min-width: 60px;
+  text-align: center;
+}
+
+.status-instock {
+  color: #52c41a;
+  background-color: #f6ffed;
+}
+
+.status-other {
+  color: #ff4d4f;
+  background-color: #fff1f0;
+}
+
+/* Add styles for the Inventory Management title */
+.inventory-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #5b6c91;
+}
+
+/* Add some additional styles for better readability */
+.ant-table {
+  font-size: 12px;
+}
+
+.ant-table-thead > tr > th {
+  font-weight: 500;
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+}
+
+.ant-modal-title {
+  font-weight: 500;
+}
+
+/* New styles for Name and Manufacturer Name columns */
+.custom-table .ant-table-tbody > tr > td:nth-child(2),
+.custom-table .ant-table-tbody > tr > td:nth-child(5) {
+  font-weight: 600;
+}
