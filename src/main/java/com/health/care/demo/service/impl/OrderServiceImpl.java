@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.health.care.demo.dto.PatientInventory;
 import com.health.care.demo.entity.CreateOrder;
+import com.health.care.demo.entity.InventoryEntity;
 import com.health.care.demo.repository.CreateOrderRepository;
+import com.health.care.demo.repository.InventoryRepository;
 import com.health.care.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ObjectMapper objectMapper;
+    
+    @Autowired
+    private InventoryRepository inventoryRepo;
+    
 
     @Override
     public CreateOrder createOrder(PatientInventory patientInventory) {
@@ -29,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPrescriptionId(patientInventory.getPrescriptionId());
 
         try {
-            String inventoryJson = objectMapper.writeValueAsString(patientInventory.getOrders);
+            String inventoryJson = objectMapper.writeValueAsString(patientInventory.getOrders());
             order.setInventoryJson(inventoryJson);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error processing inventory JSON", e);
@@ -37,4 +43,14 @@ public class OrderServiceImpl implements OrderService {
 
         return createOrderRepository.save(order);
     }
+
+	@Override
+	public InventoryEntity sveInventory(InventoryEntity inventory) {
+		
+		inventoryRepo.save(inventory);
+		
+		
+		
+		return null;
+	}
 }
