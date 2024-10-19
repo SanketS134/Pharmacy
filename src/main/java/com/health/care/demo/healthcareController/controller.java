@@ -2,6 +2,7 @@ package com.health.care.demo.healthcareController;
 
 import com.health.care.demo.dto.PatientInventory;
 import com.health.care.demo.entity.CreateOrder;
+import com.health.care.demo.entity.InventoryEntity;
 import com.health.care.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,12 @@ public class controller {
         CreateOrder createdOrder = orderService.createOrder(patientInventory);
         return ResponseEntity.ok(createdOrder);
     }
+    
+    @PostMapping ("/api/inventory")
+    public ResponseEntity<InventoryEntity> saveInventory(@RequestBody InventoryEntity inventory) {
+    	InventoryEntity entity = orderService.sveInventory(inventory);
+        return ResponseEntity.ok(entity);
+    }
+    
 
-    // Other existing methods...
 }
