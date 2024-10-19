@@ -1,9 +1,13 @@
 package com.health.care.demo.healthcareController;
 
+import com.health.care.demo.dto.OrdersListClass;
 import com.health.care.demo.dto.PatientInventory;
 import com.health.care.demo.entity.CreateOrder;
 import com.health.care.demo.entity.InventoryEntity;
 import com.health.care.demo.service.OrderService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +30,11 @@ public class controller {
         return ResponseEntity.ok(entity);
     }
     
-
+    @GetMapping ("api/get/orders")
+    public ResponseEntity<List<OrdersListClass>> getOrders() {
+        List<OrdersListClass> getListOrders = orderService.getOrders();
+        return ResponseEntity.ok(getListOrders);
+    }
+  
+    
 }
