@@ -69,8 +69,8 @@
 
 /* Updated table styles */
 .inventory-table {
-  width: 90%;
-  max-width: 1200px;
+  width: 95%;
+  /* max-width: 1200px; */
   border-collapse: separate;
   border-spacing: 0;
   margin: 20px auto;
