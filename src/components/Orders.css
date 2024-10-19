@@ -1,0 +1,137 @@
+.orders-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .orders-container h2 {
+    color: #1890ff;
+    font-size: 28px;
+    margin: 0;
+  }
+  
+  .order-card {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .order-date, .order-total {
+    font-size: 14px;
+    color: #888;
+    margin-right: 10px;
+  }
+  
+  .ant-collapse {
+    margin-top: 16px;
+  }
+  
+  .ant-collapse-header {
+    font-weight: bold;
+    text-align: left !important;
+  }
+  
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .ant-collapse-content-box p {
+    margin-bottom: 5px;
+  }
+  
+  .ant-input-search {
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+  
+  .ant-collapse-content-box .ant-row {
+    margin-bottom: -16px;
+  }
+  
+  .ant-collapse-content-box .ant-col {
+    margin-bottom: 16px;
+  }
+  
+  .ant-collapse-content-box strong {
+    margin-right: 5px;
+  }
+  
+  .patient-details,
+  .ant-collapse-content-box {
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 4px;
+  }
+  
+  .patient-details .ant-row,
+  .ant-collapse-content-box .ant-row {
+    margin-bottom: -16px;
+  }
+  
+  .patient-details .ant-col,
+  .ant-collapse-content-box .ant-col {
+    margin-bottom: 16px;
+    text-align: left; /* Align content to the left */
+  }
+  
+  .patient-details strong,
+  .ant-collapse-content-box strong {
+    margin-right: 5px;
+  }
+  
+  .product-details {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .product-header {
+    font-weight: bold;
+  }
+  
+  .product-header .ant-col,
+  .product-item .ant-col,
+  .grand-total .ant-col {
+    padding: 8px;
+    text-align: left; /* Align content to the left */
+  }
+  
+  .product-item {
+    padding: 8px 0;
+  }
+  
+  .grand-total {
+    margin-top: 16px;
+    font-weight: bold;
+    padding-top: 12px;
+    border-top: 1px solid #d9d9d9;
+  }
+  
+  @media (max-width: 768px) {
+    .orders-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .orders-header .ant-input-search {
+      margin-top: 10px;
+    }
+  
+    .order-header > span {
+      margin-bottom: 5px;
+    }
+  }

@@ -1,31 +1,23 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
-function Login({onLogin}) {
-    const navigate = useNavigate();
+function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    // Import useNavigate hook
-
-    // Get the navigate function
-
-    // Add this inside the handleSubmit function
-    // For now, we'll assume the login is successful
     if (username && password) {
-      // Navigate to the inventory page
-      onLogin();
+      login();
       navigate('/inventory');
     } else {
-      // Handle login failure (you might want to show an error message)
       console.log('Login failed: Please enter both username and password');
     }
-    console.log('Login attempted with:', username, password);
   };
 
   return (
