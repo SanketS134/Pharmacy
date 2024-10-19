@@ -2,18 +2,18 @@ package com.health.care.demo.dto;
 
 public class orderDTO {
 
-    private int inventoryId;
+    private long inventoryId;
     private int quantity;
 
-    public int getInventoryId() {
-        return inventoryId;
-    }
+    public long getInventoryId() {
+		return inventoryId;
+	}
 
-    public void setInventoryId(int inventoryId) {
-        this.inventoryId = inventoryId;
-    }
+	public void setInventoryId(long inventoryId) {
+		this.inventoryId = inventoryId;
+	}
 
-    public int getQuantity() {
+	public int getQuantity() {
         return quantity;
     }
 

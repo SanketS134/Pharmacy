@@ -1,5 +1,6 @@
 package com.health.care.demo.healthcareController;
 
+import com.health.care.demo.dto.OrdersListClass;
 import com.health.care.demo.dto.PatientInventory;
 import com.health.care.demo.entity.CreateOrder;
 import com.health.care.demo.entity.InventoryEntity;
@@ -39,5 +40,11 @@ public class controller {
     public ResponseEntity<List<InventoryEntity>> getListOfInventories(@RequestParam("name") String name) {
     	List<InventoryEntity> list = orderService.getListOfInventories(name);
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping ("api/get/orders")
+    public ResponseEntity<List<OrdersListClass>> getOrders() {
+        List<OrdersListClass> getListOrders = orderService.getOrders();
+        return ResponseEntity.ok(getListOrders);
     }
 }

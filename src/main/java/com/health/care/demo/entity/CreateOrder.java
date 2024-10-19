@@ -1,132 +1,133 @@
 package com.health.care.demo.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "createorder")
+@Table(name = "create_order")
 public class CreateOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "inverntryJson", nullable = false)
+    @Column(name = "inventory_json", nullable = false, length = 255)
     private String inventoryJson;
 
-    @Column(name = "patientName", nullable = false)
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
+    @Column(name = "patient_name", nullable = false, length = 255)
     private String patientName;
 
-    @Column(name = "phNo", nullable = false)
-    private String phoneNumber;
+    @Column(name = "ph_no", nullable = false, length = 20)
+    private String phNo;
 
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false, length = 255)
     private String email;
 
-    @Column(name = "doctorName", nullable = false)
+    @Column(name = "doctor_name", nullable = false, length = 255)
     private String doctorName;
 
-    @Column(name = "upLoadPrescription", nullable = false)
+    @Column(name = "upload_prescription", nullable = false, length = 255)
     private String uploadPrescription;
 
-    @Column(name = "PrescriptionId", nullable = false)
+    @Column(name = "prescription_id", nullable = false, length = 255)
     private String prescriptionId;
 
-    @Column(name = "createdAt", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_on", nullable = false)
+    private Long createdon;
 
-    @Column(name = "touchedAt", nullable = false)
-    private LocalDateTime touchedAt;
+    @Column(name = "touched_on", nullable = false)
+    private Long touchedon;
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getInventoryJson() {
-        return inventoryJson;
-    }
+	public String getInventoryJson() {
+		return inventoryJson;
+	}
 
-    public void setInventoryJson(String inventoryJson) {
-        this.inventoryJson = inventoryJson;
-    }
+	public void setInventoryJson(String inventoryJson) {
+		this.inventoryJson = inventoryJson;
+	}
 
-    public String getPatientName() {
-        return patientName;
-    }
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	public String getPatientName() {
+		return patientName;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getPhNo() {
+		return phNo;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setPhNo(String phNo) {
+		this.phNo = phNo;
+	}
 
-    public String getDoctorName() {
-        return doctorName;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getUploadPrescription() {
-        return uploadPrescription;
-    }
+	public String getDoctorName() {
+		return doctorName;
+	}
 
-    public void setUploadPrescription(String uploadPrescription) {
-        this.uploadPrescription = uploadPrescription;
-    }
+	public void setDoctorName(String doctorName) {
+		this.doctorName = doctorName;
+	}
 
-    public String getPrescriptionId() {
-        return prescriptionId;
-    }
+	public String getUploadPrescription() {
+		return uploadPrescription;
+	}
 
-    public void setPrescriptionId(String prescriptionId) {
-        this.prescriptionId = prescriptionId;
-    }
+	public void setUploadPrescription(String uploadPrescription) {
+		this.uploadPrescription = uploadPrescription;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public String getPrescriptionId() {
+		return prescriptionId;
+	}
 
-    public LocalDateTime getTouchedAt() {
-        return touchedAt;
-    }
+	public void setPrescriptionId(String prescriptionId) {
+		this.prescriptionId = prescriptionId;
+	}
 
-    public void setTouchedAt(LocalDateTime touchedAt) {
-        this.touchedAt = touchedAt;
-    }
+	public Long getCreatedon() {
+		return createdon;
+	}
 
-    public CreateOrder() {
-    }
+	public void setCreatedon(Long createdon) {
+		this.createdon = createdon;
+	}
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        touchedAt = LocalDateTime.now();
-    }
+	public Long getTouchedon() {
+		return touchedon;
+	}
 
-    @PreUpdate
-    protected void onUpdate() {
-        touchedAt = LocalDateTime.now();
-    }
+	public void setTouchedon(Long touchedon) {
+		this.touchedon = touchedon;
+	}
 
-    // Add getters and setters for all fields
+    
+    
 }
