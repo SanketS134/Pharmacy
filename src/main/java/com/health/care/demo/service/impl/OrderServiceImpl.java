@@ -86,6 +86,16 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public List<InventoryEntity> getAllListOfInventories() {
+		List<InventoryEntity> entities = new ArrayList<>();
+		try {
+			entities = inventoryRepo.findAll();
+		}catch (Exception e) {
+			throw new RuntimeException("error", e);
+		}
+		return entities;
+	}
+	
 	public List<OrdersListClass> getOrders() {
         List<OrdersListClass> finalData = new ArrayList<OrdersListClass>();
         List<CreateOrder> orders= createOrderRepository.findAll();
@@ -116,6 +126,7 @@ public class OrderServiceImpl implements OrderService {
         }
 		return finalData;
 	}
+
 	private List<orderDTO> convertsJsonIntoListOfOrders(String json) {
 		 ObjectMapper objectMapper = new ObjectMapper();
 	        List<orderDTO> ordersList = new ArrayList<>();

@@ -29,16 +29,22 @@ public class controller {
     	InventoryEntity entity = orderService.sveInventory(list);
         return ResponseEntity.ok(entity);
     }
+    
+    @GetMapping("/api/get/all/inventory/list")
+    public ResponseEntity<List<InventoryEntity>> getAllListOfInventories() {
+    	List<InventoryEntity> list = orderService.getAllListOfInventories();
+        return ResponseEntity.ok(list);
+    }
+    
+    @GetMapping("/api/get/filtered/inventory/list")
+    public ResponseEntity<List<InventoryEntity>> getListOfInventories(@RequestParam("name") String name) {
+    	List<InventoryEntity> list = orderService.getListOfInventories(name);
+        return ResponseEntity.ok(list);
+    }
 
     @GetMapping ("api/get/orders")
     public ResponseEntity<List<OrdersListClass>> getOrders() {
         List<OrdersListClass> getListOrders = orderService.getOrders();
         return ResponseEntity.ok(getListOrders);
-    }
-
-    @GetMapping("/api/get/inventory/list")
-    public ResponseEntity<List<InventoryEntity>> getListOfInventories(@RequestParam("name") String name) {
-    	List<InventoryEntity> list = orderService.getListOfInventories(name);
-        return ResponseEntity.ok(list);
     }
 }

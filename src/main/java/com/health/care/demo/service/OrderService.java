@@ -13,4 +13,5 @@ public interface OrderService {
 	InventoryEntity sveInventory(InventoryEntity inventory);
 	List<OrdersListClass> getOrders();
 	List<InventoryEntity> getListOfInventories(String name);
+	List<InventoryEntity> getAllListOfInventories();
 }
