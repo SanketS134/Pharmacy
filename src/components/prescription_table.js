@@ -21,6 +21,7 @@ function PrescriptionTable() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [token, setToken] = useState('');
+  const [users, setUsers] = useState({});
 
   useEffect(() => {
     fetchToken();
@@ -42,24 +43,58 @@ function PrescriptionTable() {
     }
   };
 
+  const fetchUsers = async (authToken) => {
+    try {
+      const response = await api.get('/user', {
+        headers: {
+          'Authorization': authToken,
+          'X_TENANT_ID': 'getwell'
+        },
+        params: {
+          pageNo: 1,
+          pageSize: 1000, // Adjust this value based on your needs
+          userType: 'CUSTOMER',
+          fields: 'firstName,mobileNumber,emailAddress,userType,isActive,createdAt,updatedAt',
+          archived: false
+        }
+      });
+      const userMap = {};
+      response.data.data.forEach(user => {
+        userMap[user._id] = user.mobileNumber;
+      });
+      setUsers(userMap);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      message.error('Failed to fetch user details');
+    }
+  };
+
   const fetchConsultations = async (authToken) => {
     try {
       const response = await api.get('/consultation/', {
         headers: {
           'Authorization': authToken,
           'X_TENANT_ID': 'getwell'
+        },
+        params: {
+          sort: '-createdAt'
         }
       });
       const formattedData = response.data.data.map(consultation => ({
         consultationId: consultation._id,
         patientName: consultation.customer_name,
         doctorName: consultation.professional_name,
-        phoneNumber: consultation.phoneNumber || 'N/A',
+        phoneNumber: 'Fetching...', // We'll update this later
         date: new Date(consultation.createdAt).toLocaleDateString(),
         customerId: consultation.customer_id,
-        orderId: consultation.order_id
+        orderId: consultation.order_id,
+        createdAt: consultation.createdAt
       }));
+      formattedData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setConsultations(formattedData);
+      
+      // Fetch user details after getting consultations
+      await fetchUsers(authToken);
     } catch (error) {
       console.error('Error fetching consultations:', error);
       message.error('Failed to fetch consultations');
@@ -67,6 +102,16 @@ function PrescriptionTable() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (Object.keys(users).length > 0 && consultations.length > 0) {
+      const updatedConsultations = consultations.map(consultation => ({
+        ...consultation,
+        phoneNumber: users[consultation.customerId] || 'N/A'
+      }));
+      setConsultations(updatedConsultations);
+    }
+  }, [users]);
 
   const handleViewPrescription = async (orderId) => {
     try {

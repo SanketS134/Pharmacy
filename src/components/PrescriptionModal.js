@@ -7,6 +7,24 @@ const { Panel } = Collapse;
 function PrescriptionModal({ visible, onClose, prescriptionData }) {
   const [activeTab, setActiveTab] = useState('patientInfo');
 
+  const medicineColumns = [
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Dosage', dataIndex: 'dosage', key: 'dosage' },
+    { 
+      title: 'Schedule', 
+      dataIndex: 'schedule', 
+      key: 'schedule',
+      render: (schedule) => {
+        const times = [];
+        if (schedule.morning === 'YES') times.push('Morning');
+        if (schedule.afternoon === 'YES') times.push('Afternoon');
+        if (schedule.evening === 'YES') times.push('Evening');
+        return times.join(', ') || 'Not specified';
+      }
+    },
+    { title: 'Notes', dataIndex: 'notes', key: 'notes' },
+  ];
+
   return (
     <Modal
       visible={visible}
@@ -25,7 +43,15 @@ function PrescriptionModal({ visible, onClose, prescriptionData }) {
             </div>
           </div>
           <div className="previous-consultation-content">
-            <Collapse defaultActiveKey={['1']}>
+            <Collapse defaultActiveKey={['3']}>
+              <Panel header="Prescription" key="3">
+                <Table
+                  dataSource={prescriptionData?.diagnosis?.[0]?.medicines || []}
+                  columns={medicineColumns}
+                  pagination={false}
+                  rowKey="name"
+                />
+              </Panel>
               <Panel header="Case Sheet - Cardiology" key="1">
                 <Form layout="vertical">
                   {prescriptionData?.casesheet?.[0]?.questions.map((question, index) => (
@@ -36,13 +62,16 @@ function PrescriptionModal({ visible, onClose, prescriptionData }) {
                 </Form>
               </Panel>
               <Panel header="Summary" key="2">
-                <Form.Item label="Describe">
+                {/* <Form.Item label="Describe">
                   <Input.TextArea disabled rows={4} value={prescriptionData?.summary} />
-                </Form.Item>
+                </Form.Item> */}
+                {prescriptionData?.diagnosis?.[0]?.diagnosis_summary && (
+                  <Form.Item label="Diagnosis Summary">
+                    <Input.TextArea disabled rows={4} value={prescriptionData.diagnosis[0].diagnosis_summary} />
+                  </Form.Item>
+                )}
               </Panel>
-              <Panel header="Prescription" key="3">
-                {/* Add prescription details here based on API response */}
-              </Panel>
+              
               <Panel header="Advise Tests" key="4">
                 <Table
                   dataSource={prescriptionData?.medical_test_advices}
@@ -62,7 +91,11 @@ function PrescriptionModal({ visible, onClose, prescriptionData }) {
                 ))}
               </Panel>
               <Panel header="Follow-Up" key="6">
-                <p>{prescriptionData?.followUp || 'No FollowUp date is provided.'}</p>
+                {prescriptionData?.diagnosis?.[0]?.next_follow_up_date ? (
+                  <p>Next follow-up date: {new Date(prescriptionData.diagnosis[0].next_follow_up_date).toLocaleDateString()}</p>
+                ) : (
+                  <p>No follow-up date is provided.</p>
+                )}
               </Panel>
             </Collapse>
           </div>
