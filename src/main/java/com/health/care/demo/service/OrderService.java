@@ -11,7 +11,7 @@ import com.health.care.demo.entity.InventoryEntity;
 public interface OrderService {
     CreateOrder createOrder(PatientInventory patientInventory);
 	InventoryEntity sveInventory(InventoryEntity inventory);
-	List<OrdersListClass> getOrders();
+	List<OrdersListClass> getOrders(String details);
 	List<InventoryEntity> getListOfInventories(String name);
 	List<InventoryEntity> getAllListOfInventories();
 }

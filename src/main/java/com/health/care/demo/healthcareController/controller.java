@@ -43,8 +43,8 @@ public class controller {
     }
 
     @GetMapping ("api/get/orders")
-    public ResponseEntity<List<OrdersListClass>> getOrders() {
-        List<OrdersListClass> getListOrders = orderService.getOrders();
+    public ResponseEntity<List<OrdersListClass>> getOrders(@RequestParam ("details") String details) {
+        List<OrdersListClass> getListOrders = orderService.getOrders(details);
         return ResponseEntity.ok(getListOrders);
     }
 }

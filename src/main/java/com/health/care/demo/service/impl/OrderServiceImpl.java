@@ -96,36 +96,60 @@ public class OrderServiceImpl implements OrderService {
 		return entities;
 	}
 	
-	public List<OrdersListClass> getOrders() {
-        List<OrdersListClass> finalData = new ArrayList<OrdersListClass>();
-        List<CreateOrder> orders= createOrderRepository.findAll();
-        if(orders.isEmpty()) {
-        	return null;
-        }
-        for (CreateOrder order:orders) {
-        	String json = order.getInventoryJson();
-        	List<orderDTO> list = convertsJsonIntoListOfOrders(json);
-        	OrdersListClass data = new OrdersListClass();
-    	     List<InventoryAndQuantity> finalQuantity = new ArrayList<>();
-        	for (orderDTO dto:list) {
-        		InventoryAndQuantity Quantity = new InventoryAndQuantity();
-        		Optional<InventoryEntity> entity =inventoryRepo.findById(dto.getInventoryId());
-        		Quantity.setInventoryEntity(entity.get());
-        		Quantity.setMedicineQuantity(dto.getQuantity());
-        		finalQuantity.add(Quantity);
-        	}
-        	data.setQuantity(finalQuantity);
-        	data.setId(order.getId());
-        	data.setPatientName(order.getPatientName());
-        	data.setEmail(order.getEmail());
-        	data.setPhoneNumber(order.getPhNo());
-        	data.setPrescriptionId(order.getPrescriptionId());
-        	data.setUploadPrescription(order.getUploadPrescription());
-        	data.setDoctorName(order.getDoctorName());
-        	finalData.add(data);
-        }
-		return finalData;
+	public List<OrdersListClass> getOrders(String details) {
+	    List<OrdersListClass> finalData = new ArrayList<OrdersListClass>();
+	    List<CreateOrder> orders = createOrderRepository.findAll();
+	    
+	    if (orders.isEmpty()) {
+	        return finalData;  // Or you can return an empty list instead of null
+	    }
+	    // Convert details to lowercase for case-insensitive search
+	    String searchDetails = details != null ? details.toLowerCase() : null;
+	    
+	    for (CreateOrder order : orders) {
+	        // Check if filtering is required
+	        if (!details.isEmpty()) {
+	        	// Convert patientName and phNo to lowercase and perform partial search
+	            String patientNameLower = order.getPatientName().toLowerCase();
+	            String phoneNumberLower = order.getPhNo().toLowerCase();
+
+	            // Filter based on patientName or phoneNumber (phNo) being partially matched
+	            if (!(patientNameLower.contains(searchDetails) || phoneNumberLower.contains(searchDetails))) {
+	                continue; // Skip this order if neither matches the filter
+	            }
+	        }
+	        // Process the order
+	        String json = order.getInventoryJson();
+	        List<orderDTO> list = convertsJsonIntoListOfOrders(json);
+	        OrdersListClass data = new OrdersListClass();
+	        List<InventoryAndQuantity> finalQuantity = new ArrayList<>();
+	       
+	        for (orderDTO dto : list) {
+	            InventoryAndQuantity quantity = new InventoryAndQuantity();
+	            Optional<InventoryEntity> entity = inventoryRepo.findById(dto.getInventoryId());
+	            if (entity.isPresent()) {
+	                quantity.setInventoryEntity(entity.get());
+	                quantity.setMedicineQuantity(dto.getQuantity());
+	                finalQuantity.add(quantity);
+	            }
+	        }
+	        
+	        data.setQuantity(finalQuantity);
+	        data.setId(order.getId());
+	        data.setPatientName(order.getPatientName());
+	        data.setEmail(order.getEmail());
+	        data.setPhoneNumber(order.getPhNo());
+	        data.setPrescriptionId(order.getPrescriptionId());
+	        data.setUploadPrescription(order.getUploadPrescription());
+	        data.setDoctorName(order.getDoctorName());
+	        
+	        // Add the processed order to the finalData list
+	        finalData.add(data);
+	    }
+	    
+	    return finalData;
 	}
+
 
 	private List<orderDTO> convertsJsonIntoListOfOrders(String json) {
 		 ObjectMapper objectMapper = new ObjectMapper();
