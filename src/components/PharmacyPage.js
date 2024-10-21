@@ -193,7 +193,7 @@ function PharmacyPage() {
                   level={3} 
                   style={{ 
                     margin: 0, 
-                    color: "#1890ff", 
+                    color: "#5b6c91", 
                     textAlign: 'left',
                   }}
                 >
@@ -230,7 +230,7 @@ function PharmacyPage() {
               style={{ 
                 margin: 0, 
                 textAlign: 'left',
-                color: "#1890ff", 
+                color: "#5b6c91", 
               }}
             >
               Cart
