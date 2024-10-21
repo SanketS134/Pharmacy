@@ -4,6 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import './Inventory.css';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 function Inventory() {
   const [inventoryData, setInventoryData] = useState([]);
@@ -26,7 +27,7 @@ function Inventory() {
 
   const fetchInventoryData = async () => {
     try {
-      const response = await axios.get('http://44.204.200.162:8090/api/get/all/inventory/list');
+      const response = await axios.get(`${API_BASE_URL}/api/get/all/inventory/list`);
       console.log('Inventory Data:', response.data);  // Print the data to the console
       
       // Update the state with the fetched data
