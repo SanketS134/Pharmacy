@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, Collapse, message, Spin, Table, Input } from "antd";
+import { Collapse, message, Spin, Table, Input, Empty } from "antd";
 import axios from "axios";
-import { API_BASE_URL } from '../config';
+import { API_BASE_URL } from "../config";
 import "./Orders.css";
-import { normalizeUnits } from "moment";
 
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -11,8 +10,6 @@ const { Search } = Input;
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredOrders, setFilteredOrders] = useState([]);
   const [expandedPanels, setExpandedPanels] = useState([]);
 
   useEffect(() => {
@@ -25,7 +22,6 @@ function Orders() {
         `${API_BASE_URL}/api/get/orders?details=${searchText}`
       );
       setOrders(response.data);
-      setFilteredOrders(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -64,7 +60,6 @@ function Orders() {
 
   const handleSearch = (value) => {
     const lowercaseValue = value.toLowerCase();
-    setSearchTerm(value);
     fetchOrders(lowercaseValue);
   };
 
@@ -81,14 +76,18 @@ function Orders() {
       className="orders"
       style={{ padding: "20px 20px 0", maxWidth: "1200px", margin: "0 auto" }}
     >
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '20px',
-        paddingTop: '3px'
-      }}>
-        <h2 style={{ margin: 0, color: '#5b6c91', fontSize: '28px' }}>Orders</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+          paddingTop: "3px",
+        }}
+      >
+        <h2 style={{ margin: 0, color: "#5b6c91", fontSize: "28px" }}>
+          Orders
+        </h2>
         <Search
           placeholder="Search by patient name or phone number"
           onSearch={handleSearch}
@@ -97,44 +96,137 @@ function Orders() {
           enterButton
         />
       </div>
-      <Collapse onChange={onCollapseChange} activeKey={expandedPanels}>
-        {orders?.map((order) => (
-          <Panel
-            key={order.id}
-            header={
-              <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', fontWeight: 'normal' }}>
-                <span style={{ width: '20%' }}><strong>Order #{order.id}</strong></span>
-                <span style={{ width: '25%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <span><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Patient Name:</strong> {order.patientName}</span>
-                  {expandedPanels.includes(order.id.toString()) && (
-                    <span style={{ marginTop: '8px' }}><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Email:</strong> {order.email}</span>
-                  )}
-                </span>
-                <span style={{ width: '25%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <span><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Phone Number:</strong> {order.phoneNumber}</span>
-                  {expandedPanels.includes(order.id.toString()) && (
-                    <span style={{ marginTop: '8px' }}><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Prescription ID:</strong> {order.prescriptionId}</span>
-                  )}
-                </span>
-                <span style={{ width: '30%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <span><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Doctor Name:</strong> {order.doctorName}</span>
-                  {expandedPanels.includes(order.id.toString()) && (
-                    <span style={{ marginTop: '8px' }}><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Prescription File:</strong> {order.uploadPrescription}</span>
-                  )}
-                </span>
-              </div>
-            }
-          >
-            <Table
-              columns={columns}
-              dataSource={order.quantity}
-              pagination={false}
-              rowKey={(record) => record.inventoryEntity.id}
-            />
-          </Panel>
-        ))}
-      </Collapse>
-
+      {orders.length > 0 ? (
+        <Collapse onChange={onCollapseChange} activeKey={expandedPanels}>
+          {orders?.map((order) => (
+            <Panel
+              key={order.id}
+              header={
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontWeight: "normal",
+                  }}
+                >
+                  <span style={{ width: "20%" }}>
+                    <strong>Order #{order.id}</strong>
+                  </span>
+                  <span
+                    style={{
+                      width: "25%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <span>
+                      <strong
+                        style={{
+                          color: "rgba(0, 0, 0, 0.45)",
+                          marginRight: "8px",
+                        }}
+                      >
+                        Patient Name:
+                      </strong>{" "}
+                      {order.patientName}
+                    </span>
+                    {expandedPanels.includes(order.id.toString()) && (
+                      <span style={{ marginTop: "8px" }}>
+                        <strong
+                          style={{
+                            color: "rgba(0, 0, 0, 0.45)",
+                            marginRight: "8px",
+                          }}
+                        >
+                          Email:
+                        </strong>{" "}
+                        {order.email}
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    style={{
+                      width: "25%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <span>
+                      <strong
+                        style={{
+                          color: "rgba(0, 0, 0, 0.45)",
+                          marginRight: "8px",
+                        }}
+                      >
+                        Phone Number:
+                      </strong>{" "}
+                      {order.phoneNumber}
+                    </span>
+                    {expandedPanels.includes(order.id.toString()) && (
+                      <span style={{ marginTop: "8px" }}>
+                        <strong
+                          style={{
+                            color: "rgba(0, 0, 0, 0.45)",
+                            marginRight: "8px",
+                          }}
+                        >
+                          Prescription ID:
+                        </strong>{" "}
+                        {order.prescriptionId}
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    style={{
+                      width: "30%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <span>
+                      <strong
+                        style={{
+                          color: "rgba(0, 0, 0, 0.45)",
+                          marginRight: "8px",
+                        }}
+                      >
+                        Doctor Name:
+                      </strong>{" "}
+                      {order.doctorName}
+                    </span>
+                    {expandedPanels.includes(order.id.toString()) && (
+                      <span style={{ marginTop: "8px" }}>
+                        <strong
+                          style={{
+                            color: "rgba(0, 0, 0, 0.45)",
+                            marginRight: "8px",
+                          }}
+                        >
+                          Prescription File:
+                        </strong>{" "}
+                        {order.uploadPrescription}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              }
+            >
+              <Table
+                columns={columns}
+                dataSource={order.quantity}
+                pagination={false}
+                rowKey={(record) => record.inventoryEntity.id}
+              />
+            </Panel>
+          ))}
+        </Collapse>
+      ) : (
+        <Empty />
+      )}
     </div>
   );
 }
