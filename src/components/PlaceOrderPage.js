@@ -21,7 +21,6 @@ import {
   clearCartFromLocalStorage,
   calculateTotalCartValue,
 } from "../utils/cartUtils";
-import axios from "axios";
 
 const { Title, Text } = Typography;
 

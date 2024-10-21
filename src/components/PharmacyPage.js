@@ -16,16 +16,19 @@ import {
   List,
 } from "antd";
 import { ShoppingCartOutlined, DeleteOutlined } from "@ant-design/icons";
-import CartCounter from './CartCounter';
-import { saveCartToLocalStorage, getCartFromLocalStorage, calculateTotalCartValue } from '../utils/cartUtils';
-import { API_BASE_URL } from '../config';
+import CartCounter from "./CartCounter";
+import {
+  saveCartToLocalStorage,
+  getCartFromLocalStorage,
+  calculateTotalCartValue,
+} from "../utils/cartUtils";
+import { API_BASE_URL } from "../config";
 
 const { Title, Text } = Typography;
 const { Search } = Input;
 
 function PharmacyPage() {
   const [data, setData] = useState([]);
-  const [searchText, setSearchText] = useState("");
   const [cart, setCart] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +42,9 @@ function PharmacyPage() {
 
   const fetchInventoryData = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/get/all/inventory/list`);
+      const response = await axios.get(
+        `${API_BASE_URL}/api/get/all/inventory/list`
+      );
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -72,7 +77,11 @@ function PharmacyPage() {
         </Tooltip>
       ),
     },
-    { title: "Manufacturer", dataIndex: "manufacturerName", key: "manufacturerName" },
+    {
+      title: "Manufacturer",
+      dataIndex: "manufacturerName",
+      key: "manufacturerName",
+    },
     {
       title: "Unit Price",
       dataIndex: "unitPrice",
@@ -84,16 +93,14 @@ function PharmacyPage() {
       dataIndex: "prescriptionRequired",
       key: "prescriptionRequired",
       render: (required) => (
-        <Tag color={required ? "red" : "green"}>
-          {required ? "Yes" : "No"}
-        </Tag>
+        <Tag color={required ? "red" : "green"}>{required ? "Yes" : "No"}</Tag>
       ),
     },
     {
       title: "Total Price",
       key: "totalPrice",
       render: (_, record) => {
-        const cartItem = cart.find(item => item.id === record.id);
+        const cartItem = cart.find((item) => item.id === record.id);
         const quantity = cartItem ? cartItem.orderedQuantity : 0;
         return <Text strong>₹{(record.unitPrice * quantity).toFixed(2)}</Text>;
       },
@@ -102,24 +109,26 @@ function PharmacyPage() {
       title: "Action",
       key: "action",
       render: (_, record) => {
-        const cartItem = cart.find(item => item.id === record.id);
+        const cartItem = cart.find((item) => item.id === record.id);
         if (cartItem) {
           return (
             <CartCounter
               max={record.quantity}
               initialQuantity={cartItem.orderedQuantity}
-              onQuantityChange={(quantity) => handleQuantityChange(record, quantity)}
+              onQuantityChange={(quantity) =>
+                handleQuantityChange(record, quantity)
+              }
             />
           );
         } else {
           return (
-            <Tooltip title="Add to Cart">
-              <Button
-                type="primary"
-                icon={<ShoppingCartOutlined />}
-                onClick={() => handleAddToCart(record)}
-              />
-            </Tooltip>
+            <Button
+              type="primary"
+              icon={<ShoppingCartOutlined />}
+              onClick={() => handleAddToCart(record)}
+            >
+              Add to Cart
+            </Button>
           );
         }
       },
@@ -128,13 +137,18 @@ function PharmacyPage() {
 
   const handleSearch = async (value) => {
     setIsSearching(true);
-    setSearchText(value);
     try {
       let response;
       if (value.trim()) {
-        response = await axios.get(`${API_BASE_URL}/api/get/filtered/inventory/list?name=${encodeURIComponent(value.trim())}`);
+        response = await axios.get(
+          `${API_BASE_URL}/api/get/filtered/inventory/list?name=${encodeURIComponent(
+            value.trim()
+          )}`
+        );
       } else {
-        response = await axios.get(`${API_BASE_URL}/api/get/all/inventory/list`);
+        response = await axios.get(
+          `${API_BASE_URL}/api/get/all/inventory/list`
+        );
       }
       setData(response.data);
     } catch (error) {
@@ -146,7 +160,7 @@ function PharmacyPage() {
   };
 
   const handleQuantityChange = (medicine, quantity) => {
-    const updatedCart = cart.filter(item => item.id !== medicine.id);
+    const updatedCart = cart.filter((item) => item.id !== medicine.id);
     if (quantity > 0) {
       updatedCart.push({ ...medicine, orderedQuantity: quantity });
     }
@@ -163,38 +177,46 @@ function PharmacyPage() {
   };
 
   const handleRemoveFromCart = (itemId) => {
-    const updatedCart = cart.filter(item => item.id !== itemId);
+    const updatedCart = cart.filter((item) => item.id !== itemId);
     setCart(updatedCart);
     saveCartToLocalStorage(updatedCart);
     message.success("Item removed from cart");
   };
 
-  const totalCartItems = cart.reduce((total, item) => total + item.orderedQuantity, 0);
+  const totalCartItems = cart.reduce(
+    (total, item) => total + item.orderedQuantity,
+    0
+  );
   const totalCartValue = calculateTotalCartValue(cart);
 
   const handleProceed = () => {
     if (cart.length === 0) {
-      message.warning("Your cart is empty. Please add items before proceeding.");
+      message.warning(
+        "Your cart is empty. Please add items before proceeding."
+      );
     } else {
       navigate("/place-order");
     }
   };
 
   return (
-    <Row gutter={24} style={{ padding: '0 20px', maxWidth: '1200px', margin: '0 auto' }}>
+    <Row
+      gutter={24}
+      style={{ padding: "0 20px", maxWidth: "1200px", margin: "0 auto" }}
+    >
       <Col span={17}>
         <Card
           className="pharmacy-page"
-          style={{ margin: '20px 0' }}
+          style={{ margin: "20px 0" }}
           title={
             <Row justify="space-between" align="middle">
               <Col>
-                <Title 
-                  level={3} 
-                  style={{ 
-                    margin: 0, 
-                    color: "#5b6c91", 
-                    textAlign: 'left',
+                <Title
+                  level={3}
+                  style={{
+                    margin: 0,
+                    color: "#5b6c91",
+                    textAlign: "left",
                   }}
                 >
                   Pharmacy
@@ -225,48 +247,52 @@ function PharmacyPage() {
       <Col span={7}>
         <Card
           title={
-            <Title 
-              level={4} 
-              style={{ 
-                margin: 0, 
-                textAlign: 'left',
-                color: "#5b6c91", 
+            <Title
+              level={4}
+              style={{
+                margin: 0,
+                textAlign: "left",
+                color: "#5b6c91",
               }}
             >
               Cart
             </Title>
           }
           extra={<Text strong>Total: ₹{totalCartValue.toFixed(2)}</Text>}
-          style={{ margin: '20px 0' }}
+          style={{ margin: "20px 0" }}
         >
           <List
             itemLayout="horizontal"
             dataSource={cart}
-            renderItem={item => (
+            renderItem={(item) => (
               <List.Item
                 actions={[
                   <CartCounter
                     max={item.quantity}
                     initialQuantity={item.orderedQuantity}
-                    onQuantityChange={(quantity) => handleQuantityChange(item, quantity)}
+                    onQuantityChange={(quantity) =>
+                      handleQuantityChange(item, quantity)
+                    }
                   />,
                   <Button
                     type="text"
                     danger
                     icon={<DeleteOutlined />}
                     onClick={() => handleRemoveFromCart(item.id)}
-                  />
+                  />,
                 ]}
               >
                 <List.Item.Meta
                   title={item.name}
-                  description={`${item.dosage} - ₹${item.unitPrice.toFixed(2)} each`}
+                  description={`${item.dosage} - ₹${item.unitPrice.toFixed(
+                    2
+                  )} each`}
                 />
                 <div>₹{(item.unitPrice * item.orderedQuantity).toFixed(2)}</div>
               </List.Item>
             )}
           />
-          <div style={{ marginTop: 16, textAlign: 'right' }}>
+          <div style={{ marginTop: 16, textAlign: "right" }}>
             <Text strong>Total Items: {totalCartItems}</Text>
           </div>
           <Button
