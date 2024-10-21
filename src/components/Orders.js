@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Card, Col, Collapse, message, Row, Spin, Table } from "antd";
+import { Card, Collapse, message, Spin, Table, Input } from "antd";
 import axios from "axios";
 import { API_BASE_URL } from '../config';
-import "./Orders.css"; // Import the new CSS file
+import "./Orders.css";
+import { normalizeUnits } from "moment";
 
 const { Panel } = Collapse;
+const { Search } = Input;
 
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [expandedPanels, setExpandedPanels] = useState([]);
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrders("");
   }, []);
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (searchText) => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/api/get/orders?details=`
+        `${API_BASE_URL}/api/get/orders?details=${searchText}`
       );
       setOrders(response.data);
+      setFilteredOrders(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -56,6 +62,16 @@ function Orders() {
     },
   ];
 
+  const handleSearch = (value) => {
+    const lowercaseValue = value.toLowerCase();
+    setSearchTerm(value);
+    fetchOrders(lowercaseValue);
+  };
+
+  const onCollapseChange = (key) => {
+    setExpandedPanels(key);
+  };
+
   if (loading) {
     return <Spin size="large" />;
   }
@@ -63,55 +79,62 @@ function Orders() {
   return (
     <div
       className="orders"
-      style={{ padding: "0 20px", maxWidth: "1200px", margin: "0 auto" }}
+      style={{ padding: "20px 20px 0", maxWidth: "1200px", margin: "0 auto" }}
     >
-      <h2>Orders</h2>
-      {orders?.map((order) => (
-        <Card
-          key={order.id}
-          title={`Order #${order.id}`}
-          className="order-card"
-        >
-          <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>
-            <Col xs={24} sm={12}>
-              <div style={{ backgroundColor: '#f0f2f5', padding: '16px', borderRadius: '8px' }}>
-                <p style={{ margin: '0 0 8px' }}>
-                  <strong style={{ color: '#1890ff' }}>Patient Name:</strong> {order.patientName}
-                </p>
-                <p style={{ margin: '0 0 8px' }}>
-                  <strong style={{ color: '#1890ff' }}>Phone Number:</strong> {order.phoneNumber}
-                </p>
-                <p style={{ margin: '0' }}>
-                  <strong style={{ color: '#1890ff' }}>Email:</strong> {order.email}
-                </p>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '20px',
+        paddingTop: '3px'
+      }}>
+        <h2 style={{ margin: 0, color: '#5b6c91', fontSize: '28px' }}>Orders</h2>
+        <Search
+          placeholder="Search by patient name or phone number"
+          onSearch={handleSearch}
+          style={{ width: 300 }}
+          allowClear
+          enterButton
+        />
+      </div>
+      <Collapse onChange={onCollapseChange} activeKey={expandedPanels}>
+        {orders?.map((order) => (
+          <Panel
+            key={order.id}
+            header={
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', fontWeight: 'normal' }}>
+                <span style={{ width: '20%' }}><strong>Order #{order.id}</strong></span>
+                <span style={{ width: '25%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <span><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Patient Name:</strong> {order.patientName}</span>
+                  {expandedPanels.includes(order.id.toString()) && (
+                    <span style={{ marginTop: '8px' }}><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Email:</strong> {order.email}</span>
+                  )}
+                </span>
+                <span style={{ width: '25%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <span><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Phone Number:</strong> {order.phoneNumber}</span>
+                  {expandedPanels.includes(order.id.toString()) && (
+                    <span style={{ marginTop: '8px' }}><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Prescription ID:</strong> {order.prescriptionId}</span>
+                  )}
+                </span>
+                <span style={{ width: '30%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <span><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Doctor Name:</strong> {order.doctorName}</span>
+                  {expandedPanels.includes(order.id.toString()) && (
+                    <span style={{ marginTop: '8px' }}><strong style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: '8px' }}>Prescription File:</strong> {order.uploadPrescription}</span>
+                  )}
+                </span>
               </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ backgroundColor: '#f0f2f5', padding: '16px', borderRadius: '8px' }}>
-                <p style={{ margin: '0 0 8px' }}>
-                  <strong style={{ color: '#1890ff' }}>Doctor Name:</strong> {order.doctorName}
-                </p>
-                <p style={{ margin: '0 0 8px' }}>
-                  <strong style={{ color: '#1890ff' }}>Prescription ID:</strong> {order.prescriptionId}
-                </p>
-                <p style={{ margin: '0' }}>
-                  <strong style={{ color: '#1890ff' }}>Prescription File:</strong> {order.uploadPrescription}
-                </p>
-              </div>
-            </Col>
-          </Row>
-          <Collapse>
-            <Panel header="Order Details" key="1">
-              <Table
-                columns={columns}
-                dataSource={order.quantity}
-                pagination={false}
-                rowKey={(record) => record.inventoryEntity.id}
-              />
-            </Panel>
-          </Collapse>
-        </Card>
-      ))}
+            }
+          >
+            <Table
+              columns={columns}
+              dataSource={order.quantity}
+              pagination={false}
+              rowKey={(record) => record.inventoryEntity.id}
+            />
+          </Panel>
+        ))}
+      </Collapse>
+
     </div>
   );
 }

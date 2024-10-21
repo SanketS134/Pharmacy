@@ -30,7 +30,7 @@ function AppContent() {
   return (
     <div className="App">
       {isLoggedIn && (
-        <nav className="App-nav">
+        <nav className="App-nav" style={{ backgroundColor: '#091057' }}>
           <div className="nav-container">
             <h1 className="nav-logo">PharmaCare</h1>
             <ul>
