@@ -45,16 +45,13 @@ function PlaceOrderPage() {
       title: "Quantity",
       key: "quantity",
       render: (_, record) => (
-        <>
-          {record.orderedQuantity}
-          {/* <CartCounter
+        <CartCounter
           max={record.quantity}
           initialQuantity={record.orderedQuantity}
           onQuantityChange={(quantity) =>
             handleQuantityChange(record, quantity)
           }
-        /> */}
-        </>
+        />
       ),
     },
     {
@@ -85,29 +82,29 @@ function PlaceOrderPage() {
         doctorName: values.doctorName || "",
         uploadPrescription: values.prescriptionLink || "",
         prescriptionId: values.prescriptionId || "",
-        orders: cart.map((item) => ({
+        orders: cart.map(item => ({
           inventoryId: item.id,
-          quantity: item.orderedQuantity,
-        })),
+          quantity: item.orderedQuantity
+        }))
       };
 
-      const response = await axios.post(
-        "http://44.204.200.162:8090/api/orders",
-        orderPayload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await fetch('http://44.204.200.162:8090/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderPayload)
+      });
 
-      if (response.status !== 200) {
-        throw new Error("Failed to place order");
+      if (!response.ok) {
+        throw new Error('Failed to place order');
       }
 
       message.success("Order placed successfully!");
       clearCartFromLocalStorage();
-      navigate("/orders");
+      navigate("/pharmacy");
     } catch (error) {
-      console.error("Error placing order:", error);
+      console.error('Error placing order:', error);
       message.error("Failed to place order. Please try again.");
     }
   };
@@ -129,9 +126,9 @@ function PlaceOrderPage() {
               icon={<ArrowLeftOutlined />}
               onClick={handleBack}
               style={{ padding: 0 }}
-            />
+            /> 
             <Title level={3} style={{ margin: "0 0 0 10px" }}>
-              Place Order
+               Place Order
             </Title>
           </Space>
         }
@@ -181,19 +178,28 @@ function PlaceOrderPage() {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item name="doctorContact" label="Contact">
+                  <Form.Item
+                    name="doctorContact"
+                    label="Contact"
+                  >
                     <Input />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
-                  <Form.Item name="prescriptionId" label="Prescription ID">
+                  <Form.Item
+                    name="prescriptionId"
+                    label="Prescription ID"
+                  >
                     <Input />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item name="prescriptionLink" label="Prescription Link">
+                  <Form.Item
+                    name="prescriptionLink"
+                    label="Prescription Link"
+                  >
                     <Input />
                   </Form.Item>
                 </Col>

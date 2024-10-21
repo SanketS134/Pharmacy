@@ -18,6 +18,7 @@ import {
 import { ShoppingCartOutlined, DeleteOutlined } from "@ant-design/icons";
 import CartCounter from './CartCounter';
 import { saveCartToLocalStorage, getCartFromLocalStorage, calculateTotalCartValue } from '../utils/cartUtils';
+import { API_BASE_URL } from '../config';
 
 const { Title, Text } = Typography;
 const { Search } = Input;
@@ -38,7 +39,7 @@ function PharmacyPage() {
 
   const fetchInventoryData = async () => {
     try {
-      const response = await axios.get("http://44.204.200.162:8090/api/get/all/inventory/list");
+      const response = await axios.get(`${API_BASE_URL}/api/get/all/inventory/list`);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -131,9 +132,9 @@ function PharmacyPage() {
     try {
       let response;
       if (value.trim()) {
-        response = await axios.get(`http://44.204.200.162:8090/api/get/filtered/inventory/list?name=${encodeURIComponent(value.trim())}`);
+        response = await axios.get(`${API_BASE_URL}/api/get/filtered/inventory/list?name=${encodeURIComponent(value.trim())}`);
       } else {
-        response = await axios.get("http://44.204.200.162:8090/api/get/all/inventory/list");
+        response = await axios.get(`${API_BASE_URL}/api/get/all/inventory/list`);
       }
       setData(response.data);
     } catch (error) {

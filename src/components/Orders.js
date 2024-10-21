@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Col, Collapse, message, Row, Spin, Table } from "antd";
 import axios from "axios";
+import { API_BASE_URL } from '../config';
 import "./Orders.css"; // Import the new CSS file
 
 const { Panel } = Collapse;
@@ -16,7 +17,7 @@ function Orders() {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        "http://44.204.200.162:8090/api/get/orders"
+        `${API_BASE_URL}/api/get/orders?details=`
       );
       setOrders(response.data);
       setLoading(false);
