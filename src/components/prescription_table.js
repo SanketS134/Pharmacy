@@ -220,6 +220,21 @@ function PrescriptionTable() {
           rowKey="consultationId"
           loading={loading}
           style={{ backgroundColor: '#fff', borderRadius: '8px' }}
+          components={{
+            header: {
+              cell: (props) => (
+                <th
+                  {...props}
+                  style={{
+                    background: '#5b6c91',
+                    color: '#fff',
+                    fontWeight: '400',
+                    borderBottom: '2px solid #e8e8e8'
+                  }}
+                />
+              ),
+            },
+          }}
         />
         <PrescriptionModal
           visible={modalVisible}
