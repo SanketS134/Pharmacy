@@ -27,8 +27,9 @@ function Login() {
       </div>
       <div className="login-right-panel">
         <div className="login-box">
-          <img src="logo.png" alt="Pharmacy Logo" className="login-logo" />
-          <h2>Pharmacy Login</h2>
+        <img src="logo.jpg" alt="Pharmacy Logo" className="login-logo"/>
+           
+          
           <form onSubmit={handleSubmit}>
             <div className="login-input-group">
               <label htmlFor="username">Username</label>
@@ -50,7 +51,9 @@ function Login() {
                 required
               />
             </div>
-            <button type="submit" className="login-button">Login</button>
+            <div className="login-input-group">
+              <button type="submit" className="login-button">Login</button>
+            </div>
           </form>
           <p className="login-forgot-password"><a href="#">Forgot Password?</a></p>
         </div>
