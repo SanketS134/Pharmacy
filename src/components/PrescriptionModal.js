@@ -100,15 +100,6 @@ function PrescriptionModal({ visible, onClose, prescriptionData }) {
             </Collapse>
           </div>
         </TabPane>
-        <TabPane tab="Chat" key="chat">
-          <div style={{ marginTop: '8px' }}>
-            <div style={{ borderRadius: '8px', width: '100%', height: '100%', display: 'flex', backgroundColor: 'rgb(231, 238, 240)' }}>
-              <div style={{ width: '100%', top: '40px', bottom: '0px', flexDirection: 'column' }}>
-                No chat history found
-              </div>
-            </div>
-          </div>
-        </TabPane>
       </Tabs>
     </Modal>
   );
