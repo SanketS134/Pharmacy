@@ -86,7 +86,7 @@ function PharmacyPage() {
       title: "Unit Price",
       dataIndex: "unitPrice",
       key: "unitPrice",
-      render: (price) => <Text type="success">₹{price.toFixed(2)}</Text>,
+      render: (price) => <Text type="success">₹{price?.toFixed(2)}</Text>,
     },
     {
       title: "Prescription Required",
@@ -102,7 +102,7 @@ function PharmacyPage() {
       render: (_, record) => {
         const cartItem = cart.find((item) => item.id === record.id);
         const quantity = cartItem ? cartItem.orderedQuantity : 0;
-        return <Text strong>₹{(record.unitPrice * quantity).toFixed(2)}</Text>;
+        return <Text strong>₹{(record.unitPrice * quantity)?.toFixed(2)}</Text>;
       },
     },
     {
@@ -258,7 +258,7 @@ function PharmacyPage() {
               Cart
             </Title>
           }
-          extra={<Text strong>Total: ₹{totalCartValue.toFixed(2)}</Text>}
+          extra={<Text strong>Total: ₹{totalCartValue?.toFixed(2)}</Text>}
           style={{ margin: "20px 0" }}
         >
           <List
@@ -284,11 +284,11 @@ function PharmacyPage() {
               >
                 <List.Item.Meta
                   title={item.name}
-                  description={`${item.dosage} - ₹${item.unitPrice.toFixed(
+                  description={`${item.dosage} - ₹${item.unitPrice?.toFixed(
                     2
                   )} each`}
                 />
-                <div>₹{(item.unitPrice * item.orderedQuantity).toFixed(2)}</div>
+                <div>₹{(item.unitPrice * item.orderedQuantity)?.toFixed(2)}</div>
               </List.Item>
             )}
           />

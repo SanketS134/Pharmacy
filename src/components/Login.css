@@ -25,7 +25,7 @@
 
 .login-box {
     background-color: white;
-    padding: 40px;
+    padding: 20px 40px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -35,47 +35,49 @@
 .login-logo {
     display: block;
     margin: 0 auto 20px;
-    max-width: 150px;
+    max-width: 200px;
+    height: auto;
 }
 
 .login-box h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin: 0 0 20px;
     color: #333;
 }
 
 .login-input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
 }
 
 .login-input-group label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
 }
 
-.login-input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
+.login-input-group input,
 .login-button {
     width: 100%;
     padding: 10px;
-    background-color: #1890ff;
-    color: white;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    box-sizing: border-box;
+}
+
+.login-button {
+    background-color: #091057;
+    color: white;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
 .login-button:hover {
-    background-color: #40a9ff;
+    background-color: #0d1984;
 }
 
 .login-forgot-password {
@@ -90,4 +92,57 @@
 
 .login-forgot-password a:hover {
     text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .login-box {
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 900px) {
+    .login-box {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .login-container {
+        flex-direction: column-reverse;
+        height: auto;
+    }
+
+    .login-left-panel,
+    .login-right-panel {
+        flex: none;
+        width: 100%;
+    }
+
+    .login-right-panel {
+        min-height: auto;
+        padding: 0;
+        margin-bottom: 100px; /* Add 100px space between login box and image */
+    }
+
+    .login-left-panel {
+        height: 50vh;
+    }
+
+    .login-box {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        padding: 20px;
+    }
+
+    .login-logo {
+        max-width: 150px;
+    }
 }
