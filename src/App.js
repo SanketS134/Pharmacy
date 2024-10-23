@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
 import { AuthProvider, useAuth } from './AuthContext';
 
 // Import components for different pages
-import Pharmacy from "./components/Pharmacy";
+// import Pharmacy from "./components/Pharmacy";
 import Inventory from "./components/Inventory";
-import Prescription from "./components/Prescription";
+// import Prescription from "./components/Prescription";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import PlaceOrderPage from "./components/PlaceOrderPage";
@@ -26,10 +26,12 @@ function App() {
 
 function AppContent() {
   const { isLoggedIn, logout } = useAuth();
+  const location = useLocation();
+  const showNav = isLoggedIn && location.pathname !== "/login";
 
   return (
     <div className="App">
-      {isLoggedIn && (
+      {showNav && (
         <nav className="App-nav" style={{ backgroundColor: '#091057' }}>
           <div className="nav-container">
             <h1 className="nav-logo">PharmaCare</h1>
