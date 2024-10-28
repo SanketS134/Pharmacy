@@ -44,12 +44,12 @@ function Inventory() {
 
   const handleSearch = async (value) => {
     setSearchTerm(value);
-    
+
     if (value.length >= 3 && value.length > prevSearchTerm.length) {
       setIsSearching(true);
 
       try {
-        const response = await axios.get(`http://44.204.200.162:8090/api/get/filtered/inventory/list?name=${encodeURIComponent(value)}`);
+        const response = await axios.get(`${API_BASE_URL}/api/get/filtered/inventory/list?name=${encodeURIComponent(value)}`);
         console.log('Filtered Inventory Data:', response.data);
         
         // Update the state with the fetched data
@@ -124,7 +124,7 @@ function Inventory() {
         console.log('Updating item:', updatedItem);
 
         try {
-          const response = await axios.post('http://44.204.200.162:8090/api/save/inventory', updatedItem);
+          const response = await axios.post(`${API_BASE_URL}/api/save/inventory`, updatedItem);
           if (response.status === 200) {
             // Update the local state with the response data directly
             const updatedData = response.data;
@@ -322,7 +322,7 @@ function Inventory() {
       console.log('Payload for new item:', newItem);
 
       // Make the POST API call to the correct endpoint
-      const response = await axios.post('http://44.204.200.162:8090/api/save/inventory', newItem, {
+      const response = await axios.post(`${API_BASE_URL}/api/save/inventory`, newItem, {
         headers: {
           'Content-Type': 'application/json'
         }
